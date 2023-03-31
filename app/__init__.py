@@ -1,6 +1,7 @@
 from flask import Flask,request,jsonify
 import pyodbc
 from waitress import serve
+from flask_cors import CORS
 
 import json
 app = Flask(__name__)
@@ -11,7 +12,8 @@ username = 'Jmmc'
 password = 'ChaosSoldier01'  
 cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
 
-
+#cors
+cors=CORS(app, resources={r"/":{"origins":"*"}})
 
 
 
