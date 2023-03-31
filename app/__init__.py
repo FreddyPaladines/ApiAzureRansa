@@ -1,6 +1,7 @@
 from flask import Flask,request,jsonify
 import pyodbc
-""" from waitress import serve """
+from waitress import serve
+
 import json
 app = Flask(__name__)
 
@@ -96,15 +97,11 @@ def ConsultaPrincipal():
     return pd
 
 
-""" 
+
 if __name__ == "__main__":
-    
-    
+
     serve(app, host='0.0.0.0',
             port=8080,
-            threads=2
-            
+            threads=2      
             )
 
-
- """
