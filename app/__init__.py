@@ -3,7 +3,10 @@ import pyodbc
 from waitress import serve
 
 import json
+from flask_cors import CORS
+
 app = Flask(__name__)
+CORS(app)
 
 server = "Jorgeserver.database.windows.net"
 database = 'DPL' 
