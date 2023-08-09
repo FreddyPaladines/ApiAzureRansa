@@ -70,7 +70,6 @@ def evaluacion_curso():
     except Exception as ex:
         return jsonify({'mensaje':"Error"})
 
-        return jsonify({'mensaje':"Error"})
 
 @app.route('/ConsultaPrincipal', methods=['GET'])
 def ConsultaPrincipal():
@@ -93,11 +92,10 @@ def ConsultaPrincipal():
 
 
 @app.route('/eppequiposactivos', methods=['GET'])
-def ConsultaPrincipal():
+def Eppequiposactivos():
     import pandas as pd
-
     cursor = cnxn.cursor()
-    queryEPP = "SELECT TOP (20) * FROM [citas].[PRTAL_Transportistas] ORDER BY Fecha_hora_sistema DESC"
+    queryEPP = "select [Nombres],[Apellido],[epp].[Inventario].[Cedula],[FechaCompra],[FechaRenovar],[NombreEpp],[Estado] FROM [epp].[Inventario] right JOIN [epp].[Colaboradores] ON [epp].[Inventario].[Cedula] = [epp].[Colaboradores].[Cedula];"
     df_epp = pd.read_sql(queryEPP, cnxn)
     return df_epp
 
