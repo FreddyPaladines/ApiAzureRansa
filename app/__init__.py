@@ -86,17 +86,20 @@ def ConsultaPrincipal():
     df=pd.merge(df_IESS,df_RegistroPenal, how="left")
     df=pd.merge(df,df_queryRegistroSeguridad, how="left")
     df= df.fillna("")
-
-
-
-    
     result=df.to_json(orient="records",date_format="iso")
     parsed = json.loads(result)
     pd=json.dumps(parsed, indent=4) 
-
-    
-
     return pd
+
+
+@app.route('/eppequiposactivos', methods=['GET'])
+def ConsultaPrincipal():
+    import pandas as pd
+
+    cursor = cnxn.cursor()
+    queryEPP = "SELECT TOP (20) * FROM [citas].[PRTAL_Transportistas] ORDER BY Fecha_hora_sistema DESC"
+    df_epp = pd.read_sql(queryEPP, cnxn)
+    return df_epp
 
 
 
