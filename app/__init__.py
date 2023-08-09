@@ -101,6 +101,19 @@ def Eppequiposactivos():
     parsed = json.loads(result)
     pd=json.dumps(parsed, indent=4) 
     return pd
+
+@app.route('/EppequiposRenovar')
+def Eppequiposactivos():
+    import pandas as pd
+    cursor = cnxn.cursor()
+    queryEPP = "select [Nombres],[Apellido],[epp].[Inventario].[Cedula],[FechaCompra],[FechaRenovar],[NombreEpp],[Estado] FROM [epp].[Inventario] right JOIN [epp].[Colaboradores] ON [epp].[Inventario].[Cedula] = [epp].[Colaboradores].[Cedula] where Estado='Renovar'"
+    df_epp = pd.read_sql(queryEPP, cnxn) 
+    result=df_epp.to_json(orient="records",date_format="iso")
+    parsed = json.loads(result)
+    pd=json.dumps(parsed, indent=4) 
+    return pd
+
+
 #Prueba
 """ if __name__ == "__main__":
 
