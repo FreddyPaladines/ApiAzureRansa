@@ -91,16 +91,22 @@ def ConsultaPrincipal():
     return pd
 
 
-@app.route('/eppequiposactivos', methods=['GET'])
+@app.route('/Eppequiposactivos')
 def Eppequiposactivos():
     import pandas as pd
     cursor = cnxn.cursor()
-    queryEPP = "select [Nombres],[Apellido],[epp].[Inventario].[Cedula],[FechaCompra],[FechaRenovar],[NombreEpp],[Estado] FROM [epp].[Inventario] right JOIN [epp].[Colaboradores] ON [epp].[Inventario].[Cedula] = [epp].[Colaboradores].[Cedula];"
-    df_epp = pd.read_sql(queryEPP, cnxn)
-    return df_epp
+    queryEPP = "select [Nombres],[Apellido],[epp].[Inventario].[Cedula],[FechaCompra],[FechaRenovar],[NombreEpp],[Estado] FROM [epp].[Inventario] right JOIN [epp].[Colaboradores] ON [epp].[Inventario].[Cedula] = [epp].[Colaboradores].[Cedula]"
+    df_epp = pd.read_sql(queryEPP, cnxn) 
+    result=df_epp.to_json(orient="records",date_format="iso")
+    parsed = json.loads(result)
+    pd=json.dumps(parsed, indent=4) 
+    return pd
+#Prueba
+""" if __name__ == "__main__":
 
+    app.run(debug=True) """
 
-
+#Productivo
 if __name__ == "__main__":
 
     serve(app, host='0.0.0.0',
