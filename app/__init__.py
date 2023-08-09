@@ -103,7 +103,7 @@ def Eppequiposactivos():
     return pd
 
 @app.route('/EppequiposRenovar')
-def Eppequiposactivos():
+def Eppequiposrenovar():
     import pandas as pd
     cursor = cnxn.cursor()
     queryEPP = "select [Nombres],[Apellido],[epp].[Inventario].[Cedula],[FechaCompra],[FechaRenovar],[NombreEpp],[Estado] FROM [epp].[Inventario] right JOIN [epp].[Colaboradores] ON [epp].[Inventario].[Cedula] = [epp].[Colaboradores].[Cedula] where Estado='Renovar'"
