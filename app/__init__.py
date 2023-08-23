@@ -102,16 +102,7 @@ def Eppequiposactivos():
     pd=json.dumps(parsed, indent=4) 
     return pd
 
-@app.route('/EppequiposRenovar')
-def Eppequiposrenovar():
-    import pandas as pd
-    cursor = cnxn.cursor()
-    queryEPP = "select [Nombres],[Apellido],[epp].[Inventario].[Cedula],[FechaCompra],[FechaRenovar],[NombreEpp],[Estado] FROM [epp].[Inventario] right JOIN [epp].[Colaboradores] ON [epp].[Inventario].[Cedula] = [epp].[Colaboradores].[Cedula] where Estado='Renovar'"
-    df_epp = pd.read_sql(queryEPP, cnxn) 
-    result=df_epp.to_json(orient="records",date_format="iso")
-    parsed = json.loads(result)
-    pd=json.dumps(parsed, indent=4) 
-    return pd
+
 
 @app.route('/EppequiposRenovar')
 def Eppequiposrenovar():
@@ -175,8 +166,8 @@ def insertequiposEpp():
     except Exception as ex:
         return jsonify({'mensaje':"Error"})
 
-@app.route('/insertequiposEpp', methods=['POST'])
-def registrar_curso():
+@app.route('/insertCoaborador', methods=['POST'])
+def insertCoaborador():
     try:
         cursor = cnxn.cursor()
         sql="""insert into [epp].[Inventario] (NombreEpp,FechaCompra,Estado,Cedula,FechaRenovar)
