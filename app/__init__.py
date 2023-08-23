@@ -113,6 +113,89 @@ def Eppequiposrenovar():
     pd=json.dumps(parsed, indent=4) 
     return pd
 
+@app.route('/EppequiposRenovar')
+def Eppequiposrenovar():
+    import pandas as pd
+    cursor = cnxn.cursor()
+    queryEPP = "select [ID],[Nombres],[Apellido],[epp].[Inventario].[Cedula],[FechaCompra],[FechaRenovar],[NombreEpp],[Estado] FROM [epp].[Inventario] right JOIN [epp].[Colaboradores] ON [epp].[Inventario].[Cedula] = [epp].[Colaboradores].[Cedula] where Estado='Renovar'"
+    df_epp = pd.read_sql(queryEPP, cnxn) 
+    result=df_epp.to_json(orient="records",date_format="iso")
+    parsed = json.loads(result)
+    pd=json.dumps(parsed, indent=4) 
+    return pd
+
+
+@app.route('/EppequiposRenovarsinAsignar')
+def Eppequiposrenovarsinasignar():
+    import pandas as pd
+    cursor = cnxn.cursor()
+    queryEPP = "Select [ID],[NombreEpp],[FechaCompra],[Estado] FROM [epp].[Inventario] where Estado='Sin asignar'"
+    df_epp = pd.read_sql(queryEPP, cnxn) 
+    result=df_epp.to_json(orient="records",date_format="iso")
+    parsed = json.loads(result)
+    pd=json.dumps(parsed, indent=4) 
+    return pd
+
+@app.route('/EppequiposUpdateRenovar', methods=['POST'])
+def EppequiposUpdateRenovar():
+    try:
+        cursor = cnxn.cursor()
+        sql="""UPDATE [epp].[Inventario]
+SET NombreEpp = '{0}', Estado = '{1}',Cedula = '{2}',FechaRenovar = '{3}',FechaDeEntrega = '{4}'
+WHERE [ID] = '{5}'""".format(request.json['NombreEpp'],request.json['Estado'],request.json['Cedula'],request.json['FechaRenovar'],request.json['FechaDeEntrega'],request.json['ID'])
+        cursor.execute(sql)
+        cnxn.commit()
+        return jsonify({'mensaje':"Registro renovar exitoso"})
+    except Exception as ex:
+        return jsonify({'mensaje':"Error"})
+    
+
+@app.route('/EppequiposRenovarBaja', methods=['POST'])
+def EppequiposRenovarBaja():
+    try:
+        cursor = cnxn.cursor()
+        sql="""UPDATE [epp].[Inventario]
+SET Estado = '{0}',Fechabaja= '{1}'
+WHERE [ID] = '{2}'""".format(request.json['Estado'],request.json['Fechabaja'],request.json['ID'])
+        cursor.execute(sql)
+        cnxn.commit()
+        return jsonify({'mensaje':"Registro renovar exitoso"})
+    except Exception as ex:
+        return jsonify({'mensaje':"Error"})
+    
+@app.route('/insertequiposEpp', methods=['POST'])
+def insertequiposEpp():
+    try:
+        cursor = cnxn.cursor()
+        sql="""insert into [epp].[Inventario] (NombreEpp,FechaCompra,Estado,Cedula,FechaRenovar)
+                values ('{0}','{1}','{2}','{3}','{4}')""".format(request.json['NombreEpp'],request.json['FechaCompra'],request.json['Estado'],request.json['Cedula'],request.json['FechaRenovar'])
+        cursor.execute(sql)
+        cnxn.commit()
+        return jsonify({'mensaje':"registro exitoso"})
+    except Exception as ex:
+        return jsonify({'mensaje':"Error"})
+
+@app.route('/insertequiposEpp', methods=['POST'])
+def registrar_curso():
+    try:
+        cursor = cnxn.cursor()
+        sql="""insert into [epp].[Inventario] (NombreEpp,FechaCompra,Estado,Cedula,FechaRenovar)
+                values ('{0}','{1}','{2}','{3}','{4}')""".format(request.json['NombreEpp'],request.json['FechaCompra'],request.json['Estado'],request.json['Cedula'],request.json['FechaRenovar'])
+        cursor.execute(sql)
+        cnxn.commit()
+        return jsonify({'mensaje':"registro exitoso"})
+    except Exception as ex:
+        return jsonify({'mensaje':"Error"})
+
+
+
+
+
+
+
+
+
+
 
 #Prueba
 """ if __name__ == "__main__":
