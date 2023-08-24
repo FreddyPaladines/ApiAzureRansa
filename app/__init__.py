@@ -133,7 +133,7 @@ def EppequiposUpdateRenovar():
         cursor = cnxn.cursor()
         sql="""UPDATE [epp].[Inventario]
 SET NombreEpp = '{0}', Estado = '{1}',Cedula = '{2}',FechaRenovar = '{3}',FechaDeEntrega = '{4}'
-WHERE [ID] = '{5}'""".format(request.json['NombreEpp'],request.json['Estado'],request.json['Cedula'],request.json['FechaRenovar'],request.json['FechaDeEntrega'],request.json['ID'])
+WHERE ID = '{5}'""".format(request.json['NombreEpp'],request.json['Estado'],request.json['Cedula'],request.json['FechaRenovar'],request.json['FechaDeEntrega'],request.json['ID'])
         cursor.execute(sql)
         cnxn.commit()
         return jsonify({'mensaje':"Registro renovar exitoso"})
@@ -147,7 +147,7 @@ def EppequiposRenovarBaja():
         cursor = cnxn.cursor()
         sql="""UPDATE [epp].[Inventario]
 SET Estado = '{0}',Fechabaja= '{1}'
-WHERE [ID] = '{2}'""".format(request.json['Estado'],request.json['Fechabaja'],request.json['ID'])
+WHERE ID = '{2}'""".format(request.json['Estado'],request.json['Fechabaja'],request.json['ID'])
         cursor.execute(sql)
         cnxn.commit()
         return jsonify({'mensaje':"Registro renovar exitoso"})
@@ -177,6 +177,33 @@ def insertCoaborador():
         return jsonify({'mensaje':"registro exitoso"})
     except Exception as ex:
         return jsonify({'mensaje':"Error"})
+    
+@app.route('/UpdateFirma', methods=['POST'])
+def UpdateFirma():
+    try:
+        cursor = cnxn.cursor()
+        sql="""UPDATE [epp].[Inventario]
+SET Estado = '{0}',Firma= '{1}',UrlFirma= '{2}'
+WHERE ID = '{3}""".format(request.json['Estado'],request.json['Firma'],request.json['UrlFirma'],request.json['ID'])
+        cursor.execute(sql)
+        cnxn.commit()
+        return jsonify({'mensaje':"registro exitoso"})
+    except Exception as ex:
+        return jsonify({'mensaje':"Error"})
+
+@app.route('/UpdateFirma', methods=['POST'])
+def UpdateFirma():
+    try:
+        cursor = cnxn.cursor()
+        sql="""UPDATE [epp].[Inventario]
+SET TieneSolicitud= '{0}',Comentarios= '{1}'
+WHERE ID = '{2}""".format(request.json['TieneSolicitud'],request.json['Comentarios'],request.json['ID'],request.json['ID'])
+        cursor.execute(sql)
+        cnxn.commit()
+        return jsonify({'mensaje':"registro exitoso"})
+    except Exception as ex:
+        return jsonify({'mensaje':"Error"})
+
 
 
 
