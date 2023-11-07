@@ -166,7 +166,7 @@ def insertequiposEpp():
     except Exception as ex:
         return jsonify({'mensaje':"Error"})
 
-@app.route('/insertCoaborador', methods=['POST'])
+@app.route('/insertColaborador', methods=['POST'])
 def insertCoaborador():
     try:
         cursor = cnxn.cursor()
@@ -185,19 +185,6 @@ def UpdateFirma():
         sql="""UPDATE [epp].[Inventario]
 SET Estado = '{0}',Firma= '{1}',UrlFirma= '{2}'
 WHERE ID = '{3}""".format(request.json['Estado'],request.json['Firma'],request.json['UrlFirma'],request.json['ID'])
-        cursor.execute(sql)
-        cnxn.commit()
-        return jsonify({'mensaje':"registro exitoso"})
-    except Exception as ex:
-        return jsonify({'mensaje':"Error"})
-
-@app.route('/UpdateFirma', methods=['POST'])
-def UpdateFirma():
-    try:
-        cursor = cnxn.cursor()
-        sql="""UPDATE [epp].[Inventario]
-SET TieneSolicitud= '{0}',Comentarios= '{1}'
-WHERE ID = '{2}""".format(request.json['TieneSolicitud'],request.json['Comentarios'],request.json['ID'],request.json['ID'])
         cursor.execute(sql)
         cnxn.commit()
         return jsonify({'mensaje':"registro exitoso"})
